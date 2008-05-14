@@ -1,5 +1,6 @@
 APP_CONFIG = {
   :mail_from     => 'admin@example.com',
+  :mail_reply_to => 'no-reply@example.com',
   :mail_server   => 'mail.example.com',
   :mail_port     => 25,
   :mail_domain   => 'example.com',
