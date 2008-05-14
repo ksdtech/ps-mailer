@@ -1,0 +1,9 @@
+APP_CONFIG = {
+  :mail_from     => 'admin@example.com',
+  :mail_server   => 'mail.example.com',
+  :mail_port     => 25,
+  :mail_domain   => 'example.com',
+  :mail_user     => 'admin',
+  :mail_password => 'admin',
+  :mail_auth     => :login,
+}

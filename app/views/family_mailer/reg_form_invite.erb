@@ -1,0 +1,44 @@
+To the <%= @family.last_name %> Family:
+
+Following is a link that will connect you with the Kentfield School
+District's online registration system.  We moved registration online
+in an attempt to minimize the use of paper AND streamline the effort
+of filling out multiple school forms requesting similar information.
+
+The information contained within this system comes directly from our
+PowerSchool student information database.  Please review and validate
+all information and update our records as necessary.  We need the
+information completed no later than Tuesday, May 20th.  This process
+should take no longer than 15 minutes per child if most of the 
+information is current.
+
+If your student/s will not be returning to Bacich or Kent in the Fall
+of 2008-2009, you have to fill out only Page 1 of the online registration
+form, so that we will have an accurate count of returning students.
+
+SAVE THIS EMAIL!  While we want to capture registration information
+before this school year ends, you can use this same link, login and
+password to update your information at any time during the school
+year.
+
+  1. Go to the PowerSchool Parent website at 
+     http://ps.kentfieldschools.org
+
+  2. Enter the username and password for each of
+     your students currently in grades kindergarten through seven:
+
+<%= @family.student_info %>
+  3. After logging in, click the Class Registration icon to go the 
+     Registration System.
+   
+  4. Read and follow the instructions for completing all the pages
+     of the registration form.
+
+  5. If you have more than one student returning to Bacich or Kent next 
+     year, you will need to log in separately for each student. 
+     The usernames for each student will be different.
+
+As always, feel free to email your questions and suggestions to:
+  registration@kentfieldschools.org
+  
+reg# <% @family.id %>

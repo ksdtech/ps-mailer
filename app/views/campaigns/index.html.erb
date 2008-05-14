@@ -1,0 +1,25 @@
+<h1>Listing campaigns</h1>
+
+<table>
+  <tr>
+    <td>Class</td> 
+    <td>Method</td> 
+    <td>Started</td> 
+    <td colspan="3">&nbsp;</td>
+  </tr>
+
+<% for campaign in @campaigns %>
+  <tr>
+    <td><%=h campaign.mailer_class %></td> 
+    <td><%=h campaign.method %></td> 
+    <td><%=h campaign.created_at %></td> 
+    <td><%= link_to 'Show', campaign %></td>
+    <td><%= link_to 'Edit', edit_campaign_path(campaign) %></td>
+    <td><%= link_to 'Destroy', campaign, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New campaign', new_campaign_path %>
