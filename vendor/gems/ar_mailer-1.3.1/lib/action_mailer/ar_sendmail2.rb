@@ -441,7 +441,6 @@ end
           smtp.reset
         end
         puts "attempted delivery to #{email_to}"
-        break
       end
     end
   rescue Net::SMTPAuthenticationError => e
