@@ -8,6 +8,7 @@ class Family < ActiveRecord::Base
   
   def add_student(st, un)
     family_students.create(:student_id => st.id, :grade_level => st.grade_level, :username => un)
+    cache_last_name(true)
   end
   
   def add_email_address(em)
@@ -22,21 +23,24 @@ class Family < ActiveRecord::Base
     email_addresses.collect { |ea| ea.address }
   end
   
-  def last_name
-    last_names = { }
-    family_students.each do |fs| 
-      last_names[fs.last_name] ||= 0
-      last_names[fs.last_name] += 1
-    end
-    max_last = -1
-    last_n = nil
-    last_names.each do |ln, count|
-      if count > max_last
-        max_last = count
-        last_n = ln
+  def cache_last_name(force = false)
+    if force || last_name.nil?
+      last_names = { }
+      family_students.each do |fs| 
+        last_names[fs.last_name] ||= 0
+        last_names[fs.last_name] += 1
       end
+      max_last = -1
+      last_n = nil
+      last_names.each do |ln, count|
+        if count > max_last
+          max_last = count
+          last_n = ln
+        end
+      end
+      update_attribute(:last_name, last_n)
     end
-    last_n
+    last_name
   end
   
   def student_info
@@ -132,6 +136,10 @@ class Family < ActiveRecord::Base
       end
     end
     # find orphaned families?
+  end
+  
+  def self.cache_last_name
+    Family.find(:all).each { |fam| fam.cache_last_name(true) }
   end
   
   def self.queue_mail(method_name, mailer_class='FamilyMailer')
