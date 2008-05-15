@@ -3,7 +3,7 @@ class FamiliesController < ApplicationController
   # GET /families.xml
   def index
     # @families = Family.find(:all)
-    @families = Family.paginate :page => params[:page]
+    @families = Family.paginate :order => :last_name, :page => params[:page]
 
     respond_to do |format|
       format.html # index.html.erb
