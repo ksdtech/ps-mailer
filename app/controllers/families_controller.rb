@@ -3,8 +3,18 @@ class FamiliesController < ApplicationController
   # GET /families.xml
   def index
     # @families = Family.find(:all)
-    conds = params[:alpha] ? ['last_name LIKE ?', "#{params[:alpha]}\%" ] : 1
-    @families = Family.paginate :conditions => conds, :order => :last_name, :page => params[:page]
+    joins = nil
+    conds = nil
+    if params[:nostudents]
+      joins = 'LEFT JOIN family_students ON families.id=family_students.family_id'
+      conds = ['family_students.family_id IS NULL']
+    elsif params[:noemails]
+      joins = 'LEFT JOIN email_addresses ON families.id=email_addresses.family_id'
+      conds = ['email_addresses.family_id IS NULL']
+    elsif params[:alpha] 
+      conds = ['last_name LIKE ?', "#{params[:alpha]}\%" ] 
+    end
+    @families = Family.paginate :joins => joins, :conditions => conds, :order => :last_name, :page => params[:page]
 
     respond_to do |format|
       format.html # index.html.erb

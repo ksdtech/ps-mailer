@@ -2,7 +2,12 @@
 
 <%= alpha_links @families %>
 <%= will_paginate @families %>
+<div class="searches">Search for families with <a href="/families/?noemails=1">No emails</a> 
+<a href="/families/?nostudents=1">No students</a></div>
 
+<% if @families.size == 0 %>
+<p>No families found</p>
+<% else %>
 <table>
   <tr>
     <th>Number</th>
@@ -27,6 +32,7 @@
   </tr>
 <% end %>
 </table>
+<% end  %>
 
 <br />
 
