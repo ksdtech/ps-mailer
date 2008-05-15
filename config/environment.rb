@@ -78,3 +78,7 @@ end
 require 'fastercsv'
 require 'action_mailer/ar_mailer'
 require 'action_mailer/ar_sendmail2'
+
+require 'ldapauth'
+LDAP_CONFIG = LDAPAuthConfig.new(APP_CONFIG)
+

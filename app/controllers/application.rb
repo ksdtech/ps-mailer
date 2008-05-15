@@ -14,10 +14,12 @@ class ApplicationController < ActionController::Base
   
   def authenticate
     authenticate_or_request_with_http_basic do |username, password|
-      if username == APP_CONFIG[:admin_user] && password == APP_CONFIG[:admin_password]
-        session[:user] = username
+      # if username == APP_CONFIG[:admin_user] && password == APP_CONFIG[:admin_password]
+      u = LDAPUser.authenticate(LDAP_CONFIG, username, password)
+      if u
+        session[:user] = u.user_name
+        session[:full_name] = u.cn
         session[:admin] = true
-        session[:full_name] = username
         return true
       end
       return false
