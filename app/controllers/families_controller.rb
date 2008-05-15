@@ -3,7 +3,8 @@ class FamiliesController < ApplicationController
   # GET /families.xml
   def index
     # @families = Family.find(:all)
-    @families = Family.paginate :order => :last_name, :page => params[:page]
+    conds = params[:alpha] ? ['last_name LIKE ?', "#{params[:alpha]}\%" ] : 1
+    @families = Family.paginate :conditions => conds, :order => :last_name, :page => params[:page]
 
     respond_to do |format|
       format.html # index.html.erb
