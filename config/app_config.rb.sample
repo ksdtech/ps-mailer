@@ -1,4 +1,6 @@
 APP_CONFIG = {
+  :admin_user    => 'admin',
+  :admin_password => 'admin',  
   :mail_from     => 'admin@example.com',
   :mail_reply_to => 'no-reply@example.com',
   :mail_server   => 'mail.example.com',
