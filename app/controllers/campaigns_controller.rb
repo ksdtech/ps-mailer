@@ -2,7 +2,8 @@ class CampaignsController < ApplicationController
   # GET /campaigns
   # GET /campaigns.xml
   def index
-    @campaigns = Campaign.find(:all)
+    # @campaigns = Campaign.find(:all)
+    @campaigns = Campaign.paginate :page => params[:page]
 
     respond_to do |format|
       format.html # index.html.erb

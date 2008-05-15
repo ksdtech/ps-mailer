@@ -1,14 +1,27 @@
 <h1>Listing families</h1>
+<%= will_paginate @families %>
 
 <table>
   <tr>
+    <th>Number</th>
+    <th>Last Name</th>
+    <th>Students</th>
+    <th>Email Addresses</th>
+    <th>Campaigns</th>
+    <th colspan="3">&nbsp;</th>
   </tr>
 
 <% for family in @families %>
-  <tr>
+  <tr valign="top">
+    <td><%= family.id %></td>
+    <td><%=h family.last_name %></td>
+    <td><%= family.family_students.collect { |fs| h(fs.display) }.join('<br/>') %></td>
+    <td><%= family.email_addresses.collect { |em| h(em.address) }.join('<br/>') %></td>
+    <td><%= family.family_campaigns.collect { |fc| h(fc.display) }.join('<br/>') %></td>
     <td><%= link_to 'Show', family %></td>
     <td><%= link_to 'Edit', edit_family_path(family) %></td>
     <td><%= link_to 'Destroy', family, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Send Invite', send_invite_family_path(family) %></td>
   </tr>
 <% end %>
 </table>

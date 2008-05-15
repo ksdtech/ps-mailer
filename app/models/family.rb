@@ -1,9 +1,10 @@
 class Family < ActiveRecord::Base
-  has_many :family_students, :order => :grade_level
-  has_many :family_campaigns
+  has_many :family_students, :order => :grade_level, :dependent => :delete_all
+  has_many :students, :through => :family_students
+  has_many :family_campaigns, :order => :created_at, :dependent => :delete_all
   has_many :campaigns, :through => :family_campaigns
   has_many :emails, :through => :family_campaigns
-  has_many :email_addresses
+  has_many :email_addresses, :order => :address
   
   def add_student(st, un)
     family_students.create(:student_id => st.id, :grade_level => st.grade_level, :username => un)
@@ -50,7 +51,39 @@ class Family < ActiveRecord::Base
     info
   end
   
+  def queue_mail(method_name, mailer_class='FamilyMailer')
+    c = Campaign.create(:mailer_class => mailer_class, :method_name => method_name)
+    fc = c.queue_mail(self)
+    c.destroy if fc.nil?
+    fc
+  end
+  
+  FAMILY_DATA_FIELDS = %w{
+    student_number
+    last_name
+    first_name
+    grade_level
+    enroll_status
+    home_id
+    web_id
+    web_password
+    mother_email
+    mother_email2
+    father_email
+    father_email2
+    home2_id
+    student_web_id
+    student_web_password
+    mother2_email
+    mother2_email2
+    father2_email
+    father2_email2 
+  }
+  
   def self.import(fname='family_data.txt', primary_only=true)
+    puts "deleting all students"
+    Student.destroy_all
+    
     fname = File.join(RAILS_ROOT, 'db', fname) unless fname[0, 1] == '/'
     FasterCSV.foreach(fname, :row_sep => "\n", :col_sep => "\t", :headers => true,
       :header_converters => :symbol) do |row|
@@ -98,15 +131,21 @@ class Family < ActiveRecord::Base
         f.add_email_address(row[:mother2_email2])
       end
     end
+    # find orphaned families?
   end
   
-  def self.queue_mail(method, mailer_class='FamilyMailer')
-    c = Campaign.create(:mailer_class => mailer_class, 
-      :method => method)
+  def self.queue_mail(method_name, mailer_class='FamilyMailer')
+    c = Campaign.create(:mailer_class => mailer_class, :method_name => method_name)
+    total_destinations = 0
     any_mail_queued = false
     Family.find(:all).each do |fam|
-      any_mail_queued = true if c.queue_mail(fam)
+      fc = c.queue_mail(fam)
+      if !fc.nil?
+        any_mail_queued = true
+        total_destinations += fc.emails.count
+      end
     end
     c.destroy unless any_mail_queued
+    total_destinations
   end
 end

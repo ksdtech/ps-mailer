@@ -5,4 +5,8 @@ class FamilyStudent < ActiveRecord::Base
   def last_name
     student.last_name
   end  
+  
+  def display
+    "#{username} / #{family.password} - #{student.display}"
+  end
 end

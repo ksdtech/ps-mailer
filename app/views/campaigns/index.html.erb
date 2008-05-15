@@ -1,4 +1,5 @@
 <h1>Listing campaigns</h1>
+<%= will_paginate @campaigns %>
 
 <table>
   <tr>
@@ -11,7 +12,7 @@
 <% for campaign in @campaigns %>
   <tr>
     <td><%=h campaign.mailer_class %></td> 
-    <td><%=h campaign.method %></td> 
+    <td><%=h campaign.method_name %></td> 
     <td><%=h campaign.created_at %></td> 
     <td><%= link_to 'Show', campaign %></td>
     <td><%= link_to 'Edit', edit_campaign_path(campaign) %></td>

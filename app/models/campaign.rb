@@ -1,5 +1,5 @@
 class Campaign < ActiveRecord::Base
-  has_many :family_campaigns
+  has_many :family_campaigns, :dependent => :delete_all
   has_many :families, :through => :family_campaigns
   
   def queue_mail(fam)
@@ -10,7 +10,7 @@ class Campaign < ActiveRecord::Base
         :status => 'failed', :message => 'no email addresses')
     else
       klass = Object.const_get(self.mailer_class)
-      mail = klass.send("create_#{self.method}", fam)
+      mail = klass.send("create_#{self.method_name}", fam)
     
       # cribbed from ActionMailer::ARMailer
       mail.destinations.each do |destination|
@@ -24,6 +24,6 @@ class Campaign < ActiveRecord::Base
       end
     end
     puts "campaign #{self.id} queued #{count} messages for family #{fam.id}"
-    !fc.nil?
+    fc
   end
 end

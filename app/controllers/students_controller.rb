@@ -3,6 +3,7 @@ class StudentsController < ApplicationController
   # GET /students.xml
   def index
     @students = Student.find(:all)
+    @students = Student.paginate :page => params[:page]
 
     respond_to do |format|
       format.html # index.html.erb

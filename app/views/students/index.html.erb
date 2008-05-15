@@ -1,11 +1,21 @@
 <h1>Listing students</h1>
+<%= will_paginate @students %>
 
 <table>
   <tr>
+    <th>Number</th>
+    <th>Last Name</th>
+    <th>First Name</th>
+    <th>Grade Level</th>
+    <th colspan="3">&nbsp;</th>
   </tr>
 
 <% for student in @students %>
   <tr>
+    <td><%= student.id %></td>
+    <td><%=h student.last_name %></td>
+    <td><%=h student.first_name %></td>
+    <td><%=h student.grade_level_s %></td>
     <td><%= link_to 'Show', student %></td>
     <td><%= link_to 'Edit', edit_student_path(student) %></td>
     <td><%= link_to 'Destroy', student, :confirm => 'Are you sure?', :method => :delete %></td>

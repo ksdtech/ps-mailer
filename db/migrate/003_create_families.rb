@@ -6,6 +6,8 @@ class CreateFamilies < ActiveRecord::Migration
       t.string :last_name
       t.timestamps
     end
+    add_index :families, :id, :unique => true
+    add_index :families, :password, :unique => true
   end
 
   def self.down

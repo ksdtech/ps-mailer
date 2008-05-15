@@ -5,6 +5,7 @@ class CreateEmailAddresses < ActiveRecord::Migration
       t.string :address
       t.timestamps
     end
+    add_index :email_addresses, :address, :unique => true
   end
 
   def self.down

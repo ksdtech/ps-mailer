@@ -1,9 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :campaigns
 
-  map.resources :families
-
+  map.resources :families, :member => { :send_invite => :get }
   map.resources :students
+  map.resources :campaigns
+  map.root :controller => 'families'
 
   # The priority is based upon order of creation: first created -> highest priority.
 

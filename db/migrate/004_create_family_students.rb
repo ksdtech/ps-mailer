@@ -7,6 +7,7 @@ class CreateFamilyStudents < ActiveRecord::Migration
       t.string :username
       t.timestamps
     end
+    add_index :family_students, :username, :unique => true
   end
 
   def self.down

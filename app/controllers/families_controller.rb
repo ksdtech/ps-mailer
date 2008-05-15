@@ -2,12 +2,25 @@ class FamiliesController < ApplicationController
   # GET /families
   # GET /families.xml
   def index
-    @families = Family.find(:all)
+    # @families = Family.find(:all)
+    @families = Family.paginate :page => params[:page]
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @families }
     end
+  end
+
+  # GET /families/1/send_invite
+  def send_invite
+    @family = Family.find(params[:id])
+    fc = @family.queue_mail('reg_form_invite')
+    if fc.nil?
+      flash[:notice] = "No mail queued"
+    else
+      flash[:notice] = "#{fc.emails.count} emails queued"
+    end
+    redirect_to(family_url(@family))
   end
 
   # GET /families/1

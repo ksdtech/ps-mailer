@@ -7,6 +7,7 @@ class CreateStudents < ActiveRecord::Migration
       t.integer :grade_level
       t.timestamps
     end
+    add_index :students, :id, :unique => true
   end
 
   def self.down

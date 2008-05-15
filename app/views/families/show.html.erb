@@ -1,3 +1,13 @@
+<p><b>Family Number</b><br/>
+  <%= @family.id %></p>
+<p><b>Last Name</b><br/>
+  <%=h @family.last_name %></p>
+<p><b>Password</b><br/>
+  <%=h @family.password %></p>
+<p><b>Students</b><br/>
+  <%= @family.family_students.collect { |fs| h(fs.display) }.join('<br/>') %></p>
+<p><b>Email Addresses</b><br/>
+  <%= @family.email_addresses.collect { |em| h(em.address) }.join('<br/>') %></p>
 
 <%= link_to 'Edit', edit_family_path(@family) %> |
 <%= link_to 'Back', families_path %>
