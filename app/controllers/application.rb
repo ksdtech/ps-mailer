@@ -2,14 +2,6 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  helper :all # include all helpers, all the time
-
-  # See ActionController::RequestForgeryProtection for details
-  # Uncomment the :secret if you're not using the cookie session store
-  protect_from_forgery # :secret => '0be3db1978570ed5818f64a8e6f082a2'
-  
-  # Pick a unique cookie name to distinguish our session data from others'
-  session :session_key => '_assetmgr_session_id'
   before_filter :authenticate
   
   def authenticate
@@ -17,9 +9,9 @@ class ApplicationController < ActionController::Base
       # if username == APP_CONFIG[:admin_user] && password == APP_CONFIG[:admin_password]
       u = LDAPUser.authenticate(LDAP_CONFIG, username, password)
       if u
-        session[:user] = u.user_name
-        session[:full_name] = u.cn
-        session[:admin] = true
+        # session[:user] = u.uid
+        # session[:full_name] = u.cn
+        # session[:admin] = true
         return true
       end
       return false

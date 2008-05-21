@@ -2,19 +2,24 @@ class FamiliesController < ApplicationController
   # GET /families
   # GET /families.xml
   def index
-    # @families = Family.find(:all)
+    incl = nil
     joins = nil
     conds = nil
-    if params[:nostudents]
-      joins = 'LEFT JOIN family_students ON families.id=family_students.family_id'
+    if params[:incomplete]
+      incl = :students
+      conds = ['students.reg_complete<>1']
+    elsif params[:nostudents]
+      joins = 'LEFT JOIN family_students ON family_students.family_id=families.id'
       conds = ['family_students.family_id IS NULL']
     elsif params[:noemails]
-      joins = 'LEFT JOIN email_addresses ON families.id=email_addresses.family_id'
+      joins = 'LEFT JOIN email_addresses ON email_addresses.family_id=families.id'
       conds = ['email_addresses.family_id IS NULL']
     elsif params[:alpha] 
       conds = ['last_name LIKE ?', "#{params[:alpha]}\%" ] 
     end
-    @families = Family.paginate :joins => joins, :conditions => conds, :order => :last_name, :page => params[:page]
+    @families = Family.paginate(:include => incl, :joins => joins, 
+      :conditions => conds, :order => 'families.last_name',
+      :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -22,10 +27,11 @@ class FamiliesController < ApplicationController
     end
   end
 
-  # GET /families/1/send_invite
-  def send_invite
+  # GET /families/1/notify?template=reg_form_invite
+  def notify
     @family = Family.find(params[:id])
-    fc = @family.queue_mail('reg_form_invite')
+    templ = params[:template] || :reg_form_invite
+    fc = @family.queue_mail(templ)
     if fc.nil?
       flash[:notice] = "No mail queued"
     else
@@ -33,6 +39,20 @@ class FamiliesController < ApplicationController
     end
     redirect_to(family_url(@family))
   end
+
+  # GET /families/notify_incomplete?template=reg_form_reminder_1
+  def notify_incomplete
+    @family = Family.find_incomplete
+    templ = params[:template] || :reg_form_reminder_1
+    fc = @family.queue_mail(templ)
+    if fc.nil?
+      flash[:notice] = "No mail queued"
+    else
+      flash[:notice] = "#{fc.emails.count} emails queued"
+    end
+    redirect_to(family_url(@family))
+  end
+
 
   # GET /families/1
   # GET /families/1.xml

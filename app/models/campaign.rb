@@ -1,5 +1,5 @@
 class Campaign < ActiveRecord::Base
-  has_many :family_campaigns, :dependent => :delete_all
+  has_many :family_campaigns, :dependent => :destroy
   has_many :families, :through => :family_campaigns
   
   def queue_mail(fam)

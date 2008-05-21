@@ -1,6 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
 
-  map.resources :families, :member => { :send_invite => :get }
+  map.resources :families, :collection => { :notify_incomplete => :get}, :member => { :notify => :get }
   map.resources :students
   map.resources :campaigns
   map.root :controller => 'families'

@@ -2,7 +2,9 @@
 
 <%= alpha_links @families %>
 <%= will_paginate @families %>
-<div class="searches">Search for families with <a href="/families/?noemails=1">No emails</a> 
+<div class="searches">Search for families with 
+<a href="/families/?incomplete=1">Incomplete</a> 
+<a href="/families/?noemails=1">No emails</a> 
 <a href="/families/?nostudents=1">No students</a></div>
 
 <% if @families.size == 0 %>
@@ -28,7 +30,8 @@
     <td><%= link_to 'Show', family %></td>
     <td><%= link_to 'Edit', edit_family_path(family) %></td>
     <td><%= link_to 'Destroy', family, :confirm => 'Are you sure?', :method => :delete %></td>
-    <td><%= link_to 'Send Invite', send_invite_family_path(family) %></td>
+    <td><%= link_to 'Invite', notify_family_path(family, :template => :reg_form_invite) %><br/>
+      <%= link_to 'Remind', notify_family_path(family, :template => :reg_form_reminder_1) %></td>
   </tr>
 <% end %>
 </table>
