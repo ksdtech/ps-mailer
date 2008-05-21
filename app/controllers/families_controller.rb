@@ -42,15 +42,15 @@ class FamiliesController < ApplicationController
 
   # GET /families/notify_incomplete?template=reg_form_reminder_1
   def notify_incomplete
-    @family = Family.find_incomplete
+    @families = Family.find_incomplete
     templ = params[:template] || :reg_form_reminder_1
-    fc = @family.queue_mail(templ)
-    if fc.nil?
+    total_queued = Family.queue_mail(templ, @families)
+    if total_queued == 0
       flash[:notice] = "No mail queued"
     else
-      flash[:notice] = "#{fc.emails.count} emails queued"
+      flash[:notice] = "#{total_queued} emails queued"
     end
-    redirect_to(family_url(@family))
+    redirect_to(families_url)
   end
 
 
