@@ -7,6 +7,10 @@ class Family < ActiveRecord::Base
   has_many :email_addresses, :order => :address
   has_many :email_logs
   
+  def to_s
+    "#{self.id}: #{self.last_name}"
+  end
+  
   def add_student(st, un, update_cache=false)
     fs = family_students.find(:first, :conditions => ['student_id=? OR username=?', st.id, un])
     if fs.nil?

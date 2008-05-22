@@ -3,6 +3,10 @@ class Campaign < ActiveRecord::Base
   has_many :families, :through => :family_campaigns
   has_many :email_logs
   
+  def to_s
+    "#{self.id}: #{self.method_name}"
+  end
+  
   def queue_mail(fam)
     fc = nil
     count = 0
