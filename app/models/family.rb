@@ -5,6 +5,7 @@ class Family < ActiveRecord::Base
   has_many :campaigns, :through => :family_campaigns
   has_many :emails, :through => :family_campaigns
   has_many :email_addresses, :order => :address
+  has_many :email_logs
   
   def add_student(st, un, update_cache=false)
     fs = family_students.find(:first, :conditions => ['student_id=? OR username=?', st.id, un])
