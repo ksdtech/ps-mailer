@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  email_id: 1
+  campaign_id: 1
+  family_id: 1
+  to: MyString
+  from: MyString
+  result: MyString
+
+two:
+  email_id: 1
+  campaign_id: 1
+  family_id: 1
+  to: MyString
+  from: MyString
+  result: MyString

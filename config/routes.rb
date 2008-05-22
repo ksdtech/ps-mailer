@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :email_logs
+
 
   map.resources :families, :collection => { :notify_incomplete => :get}, :member => { :notify => :get }
   map.resources :students

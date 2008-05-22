@@ -77,7 +77,7 @@ class Family < ActiveRecord::Base
   end
   
   def queue_mail(method_name)
-    c = Campaign.create(:mailer_class => 'FamilyMailer', :method_name => method_name)
+    c = Campaign.create(:mailer_class => 'FamilyMailer', :method_name => method_name.to_s)
     fc = c.queue_mail(self)
     c.destroy if fc.nil?
     fc
@@ -200,7 +200,7 @@ form9_updated_at
     end
   
     def queue_mail(method_name, coll=nil)
-      c = Campaign.create(:mailer_class => 'FamilyMailer', :method_name => method_name)
+      c = Campaign.create(:mailer_class => 'FamilyMailer', :method_name => method_name.to_s)
       total_destinations = 0
       any_mail_queued = false
       coll = Family.find(:all) if coll.nil?

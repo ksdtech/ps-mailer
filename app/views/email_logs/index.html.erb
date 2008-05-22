@@ -1,0 +1,25 @@
+<h1>Listing email logs</h1>
+
+<table>
+  <tr>
+    <th>Time</th>
+    <th>Campaign</th>
+    <th>Family</th>
+    <th>To</th>
+    <th>From</th>
+    <th>Result</th>
+    <th>Message</th>
+  </tr>
+
+<% for email_log in @email_logs %>
+  <tr>
+    <td><%=h email_log.created_at %></td>
+    <td><%=h email_log.campaign %></td>
+    <td><%=h email_log.family %></td>
+    <td><%=h email_log.to %></td>
+    <td><%=h email_log.from %></td>
+    <td><%=h email_log.result %></td>
+    <td><%=h email_log.message %></td>
+  </tr>
+<% end %>
+</table>
